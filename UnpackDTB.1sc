@@ -1,0 +1,32 @@
+//------------------------------------------------
+//--- 010 Editor v7.0 Script File
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+//   History: 
+//------------------------------------------------
+
+uchar Buffer[10000000];
+uint Size, i, FileIndex;
+string Name, Path;
+
+FileIndex = GetFileNum();
+Path = FileNameGetPath((GetFileName()));
+
+while (!FEof())
+{
+  ++i;
+  Size = ReadInt(FTell());
+  FSkip(4);
+  ReadBytes(Buffer, FTell(), Size);  
+  FSkip(Size);
+  SPrintf(Name, "%d", i);
+  FileNew("Hex");
+  WriteBytes(Buffer, 0, Size); 
+  FileSave(Path + Name + ".dds");
+  FileClose();
+  FileSelect(FileIndex); 
+};
