@@ -1,0 +1,38 @@
+# Game: Constantine (script 0.1)
+# Description:
+# script to decrypt jpeg images from "Pictures" folder
+# Link:
+
+// get initial key value
+get VAR long
+xmath KEY "(VAR >> 1) + 3*(VAR & 1)"
+if KEY <= 0
+    math KEY = 13
+endif	
+
+callfunction get_next_key 1
+	
+get SIZE asize
+math SIZE -= 4
+log MEMORY_FILE 4 SIZE
+
+for i = 0 < SIZE
+    getvarchr VAR MEMORY_FILE i byte
+	math VAR ^ KEY
+	putvarchr MEMORY_FILE i VAR	byte
+	xmath CONDITION "i & 15"
+    if CONDITION == 0
+        callfunction get_next_key 1
+	endif	
+next i 
+
+get NAME filename
+log NAME 0 SIZE MEMORY_FILE
+
+// next key value
+startfunction get_next_key
+    xmath KEY "(KEY%44488)*48271 - 3399*(KEY/44488)"
+    if KEY < 0
+        math KEY += 2147483647
+	endif	
+endfunction

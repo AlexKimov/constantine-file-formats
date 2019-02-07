@@ -1,0 +1,27 @@
+//------------------------------------------------
+//--- 010 Editor v7.0 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+while (!FEof())
+{
+  struct {
+    UINT16 Size;
+    if (Size < 20480)
+    { 
+      
+      char Buffer[Size];
+    }
+    else
+      char Buffer[16382];      
+  } SECTION;
+};
+

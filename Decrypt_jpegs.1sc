@@ -1,0 +1,79 @@
+//------------------------------------------------
+//--- 010 Editor v7.0 Script File
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+//   History: 
+//------------------------------------------------
+
+local uint i, FileIndex, FileNewIndex, Size;
+local int Key, a, b;
+
+Size = FileSize() - 4;
+local uchar Buffer[Size];
+
+// get initial key value
+
+a = ReadInt(0) & 1;
+b = ReadInt(0) >> 1;
+Key = b + 3 * a;
+if (!(Key))
+  Key = 13;
+
+// file to buffer
+ReadBytes(Buffer, 4, Size);
+
+FileIndex = GetFileNum();
+FileNewIndex = FileNew("Hex");
+
+// get next key value
+int getKey()
+{
+  Key = (Key%44488)*48271 - 3399*(Key/44488);
+  if (Key < 0)
+    Key += 2147483647;
+  return Key;
+};
+
+// without simplifying
+int getKeyOrig()
+{
+  local int b, c, d, f;
+  d = Key / 44488; // eax | ADC8h
+  f = Key % 44488; // edx
+  b = d; // ecx
+  f = f * 48271; // 0BC8Fh / 1014946046
+  b = b << 4;
+  b += d;
+  b = b + b*4;
+  b = b + b*4;
+  b += b;
+  b += b;
+  b += b;
+  b -= d;
+  f -= b;
+  d = f;
+  Key = d;
+  if (d < 0)
+  {
+    d += 2147483647; // 7FFFFFFFh
+    Key = d;
+  };
+  return d;
+};
+
+getKey();
+
+for (i = 0; i < Size; i++)
+{
+  Buffer[i] = Buffer[i] ^ Key; 
+  if (!(i & 15))
+    getKey();
+  WriteByte(FTell(), Buffer[i]);
+  FSkip(1);
+};
+
+//FileSave("C:/test.jpg");
