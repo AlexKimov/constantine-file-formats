@@ -1,0 +1,27 @@
+# Game: Constantine (PC, 2005) (script 0.1)
+# Description:
+# script to unpack .bin game files compressed with "lzo1x" compression
+# Link:
+
+get FN FILENAME
+get FILE_SIZE asize
+set OFFSET 0
+log FN 0 0
+comtype lzo1x
+append
+
+for
+    Xmath POS "FILE_SIZE - OFFSET"
+    if POS > 16384  
+        get SIZE SHORT
+        math OFFSET + 2
+        Clog FN OFFSET SIZE 10000000  
+        math OFFSET + SIZE
+        GoTo OFFSET        
+    else   
+        log FN OFFSET 16384 // ?!   
+        break
+    endif        
+next
+    
+append
