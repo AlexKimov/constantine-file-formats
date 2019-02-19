@@ -2,9 +2,11 @@
 Constantine game (2005) file formats and tools.
 
 ## Templates
-| № | File|    Description   |
-| :-- | :------- | :-- |
-|  **1**  | [BIN.bt](https://github.com/AlexKimov/constantine-file-formats/blob/master/BIN.bt)  |  010Editor template for **BIN** game archive  |
+| № | File | Script (decompress) |  Description   |
+| :-- | :------- | :------- |:-- |
+|  **1**  | [BIN.bt](https://github.com/AlexKimov/constantine-file-formats/blob/master/BIN.bt) |  [bin.bms](https://github.com/AlexKimov/constantine-file-formats/blob/master/bin.bms) |  010Editor template for **BIN** game archive*  |
+
+    * files compressed with lzo1x compression
 
 ## Scripts
 
