@@ -20,4 +20,4 @@ Constantine game (2005) file formats and tools.
 | № | .bat file | Script  | Description   |
 | :-- | :------- | :-------  | :-- |
 |  **1**  | [run_bms.bat](https://github.com/AlexKimov/constantine-file-formats/blob/master/run_bms.bats) | [constantine.bms](https://github.com/AlexKimov/constantine-file-formats/blob/master/constantine.bms)  | Quickbms script to decrypt jpeg files in "Pictures" folder |
-|  **2**  | [run_bin.bat](https://github.com/AlexKimov/constantine-file-formats/blob/master/run_bin.bat) | [bin.bms](https://github.com/AlexKimov/constantine-file-formats/blob/master/bin.bms) | Quickbms script to decompress .bin files | 
+|  **2**  | [run_bin.bat](https://github.com/AlexKimov/constantine-file-formats/blob/master/run_bin.bat) | [bin.bms](https://github.com/AlexKimov/constantine-file-formats/blob/master/bin.bms) | Quickbms script to unpack .bin files | 
