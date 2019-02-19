@@ -11,17 +11,129 @@
 //   History: 
 //------------------------------------------------
 
-while (!FEof())
+typedef struct 
 {
-  struct {
-    UINT16 Size;
-    if (Size < 20480)
-    { 
-      
-      char Buffer[Size];
-    }
-    else
-      char Buffer[16382];      
-  } SECTION;
+  UINT Type;
+  UINT Size;
+} HEADER;
+
+uint InnerData(uint Type, uint Pos)
+{
+  local uint result = Pos;
+  switch (Type)
+  {
+    case 1:
+    {
+      char Name[Header.Size];
+      result = Header.Size; 
+    };
+    break;
+    case 4:
+    {
+      UINT Unknown;
+      result = Header.Size; 
+    };
+    break;
+    case 5:
+    {
+      result = Header.Size; 
+    };
+    break;
+    case 12:
+    {
+      UINT Unknown;
+      result = Header.Size; 
+    };
+    break;
+    case 13:
+    {
+      UINT Unknown; 
+      result = 4;
+    };
+    break;
+    case 14:
+    {
+      UINT Unknown;
+      result = Header.Size; 
+    };
+    break;
+    case 15:
+    {
+      UINT Unknown;
+      result = Header.Size; 
+    };
+    break;
+    case 17:
+    {
+      UINT Unknown;
+      result = Header.Size; 
+    };
+    break;  
+    default:
+    {
+      result = Header.Size; 
+    };
+  };
+  return result;
 };
+
+local uint pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8;
+
+// First section of the file (the same in every single .bin file)
+do
+{
+  HEADER Header <name="Header 1">;
+  struct { 
+    if (Header.Type == 2147483649) 
+    { 
+      pos3 = pos1;   
+      pos4 = Header.Size + pos3;  
+      do 
+      {
+        HEADER Header <name="Header 2">;
+        pos3 += 8; 
+        struct {       
+          if (Header.Type == 2147483649) 
+          { 
+            pos5 = pos3;   
+            pos6 = Header.Size + pos5; 
+            do
+            {               
+              HEADER Header <name="Header 3">;
+              pos5 += 8;  
+              struct {     
+                if (Header.Type == 1) 
+                { 
+                  UINT Unknown;
+                  pos5 += 4;      
+                }
+                else
+                  if (Header.Type == 2147483649) 
+                  { 
+                    pos7 = pos5; 
+                    pos8 = Header.Size + pos7; 
+                    do
+                    {
+                      HEADER Header <name="Header 4">; 
+                      pos7 += 8;                        
+                      struct { 
+                        pos7 += InnerData(Header.Type, pos7); 
+                      } DATA4 <name="Data">;
+                    } 
+                    while (pos7 < pos8); 
+                    pos5 = pos8;        
+                  }; 
+              } DATA3 <name="Data">;  
+            }
+            while (pos5 < pos6);
+            pos3 = pos6;                  
+          };
+        } DATA2 <name="Data">;
+      }
+      while (pos3 < pos4);  
+      pos1 = pos4;          
+    };
+  } DATA1 <name="Data">;
+}
+while (pos1 < pos2);
 
